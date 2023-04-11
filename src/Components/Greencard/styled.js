@@ -16,8 +16,16 @@ export const BoxGreen = styled.div`
 	cursor: pointer;
 	height: 100%;
 	width: 100%;
-	animation-name: ${""}; // control through code (renderBox), hide, clicked.
-	animation-duration: 0.6s;
+	animation-name: ${(props) =>
+		props.clicked
+			? renderBox
+			: ""}; // control through code (renderBox), hide, clicked.
+	animation-duration: 0.15s;
 	animation-delay: 0s;
-	display: block; // control through code (hide ? (clicked ? block : none) : block)
+	display: ${(props) =>
+		props.hideCards
+			? props.clicked
+				? "block"
+				: "none"
+			: "block"}; // control through code (hide ? (clicked ? block : none) : block)
 `;
