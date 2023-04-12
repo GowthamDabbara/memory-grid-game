@@ -2,25 +2,31 @@ import { click } from "@testing-library/user-event/dist/click";
 import React from "react";
 import { useState, useEffect } from "react";
 import Countdown from "react-countdown";
-import { BoxGreen } from "./styled";
+import { BoxGreen, BoxGreenTwo } from "./styled";
 
 const Greencard = ({ clicked }) => {
 	const [hideCards, setHideCards] = useState(0);
 
-	const hideGreenCards = ({ completed }) => {
-		if (completed) {
+	// const hideGreenCards = ({ completed }) => {
+	// 	if (completed) {
+	// 		setHideCards(1);
+	// 		return <></>;
+	// 	} else {
+	// 		return <></>;
+	// 	}
+	// };
+
+	useEffect(() => {
+		setTimeout(() => {
 			setHideCards(1);
-			return <></>;
-		} else {
-			return <></>;
-		}
-	};
+		}, 3000);
+	}, []);
 
 	return (
 		<>
-			{clicked ? "" : ""}
-			<Countdown date={Date.now() + 3000} renderer={hideGreenCards} />
+			{/* <Countdown date={Date.now() + 2900} renderer={hideGreenCards} /> */}
 			<BoxGreen hideCards={hideCards} clicked={clicked}></BoxGreen>
+			<BoxGreenTwo clicked={clicked}></BoxGreenTwo>
 		</>
 	);
 };
