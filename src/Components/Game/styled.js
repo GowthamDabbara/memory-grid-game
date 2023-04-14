@@ -10,9 +10,9 @@ export const Parent = styled.div`
 	flex-wrap: wrap;
 	width: 500px;
 	aspect-ratio: 1 / 1;
-	animation-name: ${renderAnimation};
+	animation-name: ${(props) => (props.darkModeToggled ? "" : renderAnimation)};
 	animation-duration: 1s;
-	background-color: #1a202c;
+	background-color: ${(props) => (props.darkMode ? "#1a202c" : "white")};
 `;
 
 export const MainContainer = styled.div`

@@ -13,7 +13,6 @@ const Gamecontroller = () => {
 		if (currentLevel > topLevel) {
 			setTopLevel(currentLevel);
 		}
-		console.log("inside Restart", Cookies.get("mode"));
 		setMode(Cookies.get("mode"));
 		setCurrentLevel(1);
 		forceUpdate();

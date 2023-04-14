@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Countdown from "react-countdown";
 import { BoxGreen, BoxGreenTwo } from "./styled";
 
-const Greencard = ({ clicked }) => {
-	const [hideCards, setHideCards] = useState(0);
+const Greencard = ({ clicked, sameLevel }) => {
+	const [hideCards, setHideCards] = useState(sameLevel ? 1 : 0);
 
 	// const hideGreenCards = ({ completed }) => {
 	// 	if (completed) {
@@ -16,7 +16,21 @@ const Greencard = ({ clicked }) => {
 	// 	}
 	// };
 
+	// const gameArea = React.useMemo(
+	// 	() => (
+	// 		<>
+	// 			{/* <Countdown date={Date.now() + 2900} renderer={hideGreenCards} /> */}
+	// 			<BoxGreen hideCards={hideCards} clicked={clicked}></BoxGreen>
+	// 			<BoxGreenTwo clicked={clicked}></BoxGreenTwo>
+	// 		</>
+	// 	),
+	// 	[hideCards, clicked]
+	// );
+
 	useEffect(() => {
+		// console.log("clickable", clickable);
+		// sameLevel ? setHideCards(1) : <></>;
+		// console.log("same Level", sameLevel);
 		setTimeout(() => {
 			setHideCards(1);
 		}, 3000);
@@ -24,8 +38,13 @@ const Greencard = ({ clicked }) => {
 
 	return (
 		<>
+			{/* {gameArea} */}
 			{/* <Countdown date={Date.now() + 2900} renderer={hideGreenCards} /> */}
-			<BoxGreen hideCards={hideCards} clicked={clicked}></BoxGreen>
+			<BoxGreen
+				sameLevel={sameLevel}
+				hideCards={hideCards}
+				clicked={clicked}
+			></BoxGreen>
 			<BoxGreenTwo clicked={clicked}></BoxGreenTwo>
 		</>
 	);

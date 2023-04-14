@@ -28,7 +28,7 @@ export const BoxGreen = styled.div`
 	height: ${(props) => (props.hideCards ? "0%" : "100%")};
 	width: ${(props) => (props.hideCards ? "0%" : "100%")};
 	animation-name: ${(props) => (props.hideCards ? renderBoxFirst : "")};
-	animation-duration: 0.15s;
+	animation-duration: ${(props) => (props.sameLevel ? "0s" : "0.15s")};
 	animation-delay: 0s;
 	display: block; // control through code (hide ? (clicked ? block : none) : block)
 `;
