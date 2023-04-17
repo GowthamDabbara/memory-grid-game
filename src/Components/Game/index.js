@@ -20,6 +20,7 @@ const Game = ({
 	mode,
 	setThemeCB,
 	sameLevel,
+	hideCardsCB,
 }) => {
 	const [darkModeToggled, setDarkModeToggled] = useState(0);
 	const [darkMode, setDarkMode] = useState(mode);
@@ -100,7 +101,8 @@ const Game = ({
 					cardFoundCB={checkLevelCompletion}
 					darkMode={data[i].theme}
 					sameLevel={sameLevel}
-					// setThemeCB={setThemeCB}
+					setThemeCB={setThemeCB}
+					hideCardsCB={hideCardsCB}
 				/>
 			);
 			data[i].sameLevel = 1;

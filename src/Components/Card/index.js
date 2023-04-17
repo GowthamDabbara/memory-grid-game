@@ -15,10 +15,13 @@ const Card = ({
 	foundi,
 	key,
 	setThemeCB,
+	hideCardsCB,
 }) => {
 	const [clicked, setClicked] = useState(foundi);
 	const [redClicked, setRedClicked] = useState(0);
-	const [clickable, setClickable] = useState(0);
+	const [clickable, setClickable] = useState(
+		sameLevel ? (hideCardsCB() ? 1 : 0) : 0
+	);
 	const [modeToggled, setModeToggled] = useState(0);
 	let found = 0;
 
@@ -42,7 +45,11 @@ const Card = ({
 
 	useEffect(() => {
 		sameLevel
-			? setClickable(1)
+			? hideCardsCB()
+				? setClickable(1)
+				: setTimeout(() => {
+						setClickable(1);
+				  }, 1000)
 			: setTimeout(() => {
 					setClickable(1);
 			  }, 3000);
@@ -72,6 +79,7 @@ const Card = ({
 				{value ? (
 					<Greencard
 						// clickable={clickable}
+						hideCardsCB={hideCardsCB}
 						sameLevel={sameLevel}
 						clicked={clicked}
 					/>

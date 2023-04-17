@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Countdown from "react-countdown";
 import { BoxGreen, BoxGreenTwo } from "./styled";
 
-const Greencard = ({ clicked, sameLevel }) => {
-	const [hideCards, setHideCards] = useState(sameLevel ? 1 : 0);
+const Greencard = ({ clicked, sameLevel, hideCardsCB }) => {
+	const [hideCards, setHideCards] = useState(hideCardsCB() ? 1 : 0);
 
 	// const hideGreenCards = ({ completed }) => {
 	// 	if (completed) {
@@ -27,13 +27,36 @@ const Greencard = ({ clicked, sameLevel }) => {
 	// 	[hideCards, clicked]
 	// );
 
+	const runtemp = () => {
+		while (0) {
+			if (hideCardsCB() === 0) {
+				continue;
+			}
+			console.log("inside while");
+			break;
+		}
+	};
+
 	useEffect(() => {
-		// console.log("clickable", clickable);
-		// sameLevel ? setHideCards(1) : <></>;
-		// console.log("same Level", sameLevel);
-		setTimeout(() => {
-			setHideCards(1);
-		}, 3000);
+		if (hideCards === 0) {
+			runtemp();
+			// while (1) {
+			// 	if (hideCardsCB() === 1)
+			// 		continue;
+			// 	}
+			// 	setHideCards(1);
+			// 	break;
+			// }
+			sameLevel
+				? hideCardsCB()
+					? setHideCards(1)
+					: setTimeout(() => {
+							setHideCards(1);
+					  }, 1000)
+				: setTimeout(() => {
+						setHideCards(1);
+				  }, 3000);
+		}
 	}, []);
 
 	return (

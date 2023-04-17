@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useReducer, createContext, useContext } from "react";
 import Countdown from "react-countdown";
 import Game from "../Game";
@@ -11,6 +11,7 @@ const Gamecontroller = () => {
 	const [mode, setMode] = useState(1);
 	const [sameLevel, setSameLevel] = useState(0);
 	const ThemeContext = createContext(null);
+	let hide = 0;
 
 	let tempMode = mode;
 	const restart = () => {
@@ -20,10 +21,20 @@ const Gamecontroller = () => {
 		console.log(mode, "inside controller");
 		setCurrentLevel(1);
 		setMode(tempMode);
+		hide = 0;
+		// resetGreenTimer();
 		forceUpdate();
 	};
 
+	const resetGreenTimer = () => {
+		setTimeout(() => {
+			hide = 1;
+		}, 3000);
+	};
+
 	const nextLevel = () => {
+		hide = 0;
+		// resetGreenTimer();
 		setMode(tempMode);
 		setCurrentLevel(currentLevel + 1);
 	};
@@ -44,6 +55,16 @@ const Gamecontroller = () => {
 		// setSameLevel(1);
 	};
 
+	const hideCards = () => {
+		return hide;
+	};
+
+	useEffect(() => {
+		setTimeout(() => {
+			hide = 1;
+		}, 3000);
+	}, [currentLevel]);
+
 	const renderGame = () => {
 		return (
 			<>
@@ -62,6 +83,7 @@ const Gamecontroller = () => {
 						mode={mode}
 						setThemeCB={setTheme}
 						sameLevel={sameLevel}
+						hideCardsCB={hideCards}
 					/>
 				</ThemeContext.Provider>
 			</>
