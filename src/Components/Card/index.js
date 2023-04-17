@@ -14,6 +14,7 @@ const Card = ({
 	sameLevel,
 	foundi,
 	key,
+	setThemeCB,
 }) => {
 	const [clicked, setClicked] = useState(foundi);
 	const [redClicked, setRedClicked] = useState(0);
@@ -31,6 +32,7 @@ const Card = ({
 				setClicked(1);
 			} else {
 				setTimeout(() => {
+					// setThemeCB();
 					restartCB();
 				}, 200);
 				setRedClicked(1);
@@ -39,7 +41,6 @@ const Card = ({
 	};
 
 	useEffect(() => {
-		console.log("card already found", foundi);
 		sameLevel
 			? setClickable(1)
 			: setTimeout(() => {
