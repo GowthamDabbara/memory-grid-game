@@ -27,16 +27,20 @@ const Greencard = ({ clicked, sameLevel, hideCardsCB }) => {
 	// 	[hideCards, clicked]
 	// );
 
+	let timerId;
+	let tempHide = hideCardsCB() ? 1 : 0;
 	const tempFunc = () => {
-		let timerId = setInterval(() => {
+		timerId = setInterval(() => {
 			if (hideCardsCB()) {
+				tempHide = 1;
 				setHideCards(1);
 			}
-			console.log("mango");
+			console.log("mango", hideCardsCB(), tempHide, hideCards);
 		}, 100);
-		if (hideCards) {
-			clearTimeout(timerId);
-		}
+		setTimeout(() => {
+			clearInterval(timerId);
+			console.log("disaabled");
+		}, 4000);
 		// hideCardsCB not returning 1 after useeffect change.
 	};
 
