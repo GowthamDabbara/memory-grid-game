@@ -18,29 +18,30 @@ const Gamecontroller = () => {
 		if (currentLevel > topLevel) {
 			setTopLevel(currentLevel);
 		}
-		console.log(mode, "inside controller");
 		setCurrentLevel(1);
 		setMode(tempMode);
 		hide = 0;
-		// resetGreenTimer();
+		resetGreenTimer();
 		forceUpdate();
 	};
 
 	const resetGreenTimer = () => {
+		hide = 0;
 		setTimeout(() => {
+			console.log("inside resetGreenTimer");
 			hide = 1;
 		}, 3000);
 	};
 
 	const nextLevel = () => {
-		hide = 0;
-		// resetGreenTimer();
+		resetGreenTimer();
 		setMode(tempMode);
 		setCurrentLevel(currentLevel + 1);
 	};
 
 	const reset = ({ completed }) => {
 		if (completed) {
+			resetGreenTimer();
 			restart();
 			return <></>;
 		} else {
@@ -63,16 +64,17 @@ const Gamecontroller = () => {
 		setTimeout(() => {
 			hide = 1;
 		}, 3000);
-	}, [currentLevel]);
+		console.log("inside effect");
+	}, []);
 
 	const renderGame = () => {
 		return (
 			<>
-				<Countdown
+				{/* <Countdown
 					key={Math.random()}
 					date={Date.now() + 8000}
 					renderer={reset}
-				/>
+				/> */}
 				<ThemeContext.Provider value={mode}>
 					<Game
 						key={Math.random()}
@@ -82,7 +84,7 @@ const Gamecontroller = () => {
 						nextLevelCB={nextLevel}
 						mode={mode}
 						setThemeCB={setTheme}
-						sameLevel={sameLevel}
+						sameLevel={0}
 						hideCardsCB={hideCards}
 					/>
 				</ThemeContext.Provider>

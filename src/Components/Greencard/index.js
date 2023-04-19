@@ -27,35 +27,25 @@ const Greencard = ({ clicked, sameLevel, hideCardsCB }) => {
 	// 	[hideCards, clicked]
 	// );
 
-	const runtemp = () => {
-		while (0) {
-			if (hideCardsCB() === 0) {
-				continue;
+	const tempFunc = () => {
+		let timerId = setInterval(() => {
+			if (hideCardsCB()) {
+				setHideCards(1);
 			}
-			console.log("inside while");
-			break;
+			console.log("mango");
+		}, 100);
+		if (hideCards) {
+			clearTimeout(timerId);
 		}
+		// hideCardsCB not returning 1 after useeffect change.
 	};
 
 	useEffect(() => {
+		// tempFunc();
+
 		if (hideCards === 0) {
-			runtemp();
-			// while (1) {
-			// 	if (hideCardsCB() === 1)
-			// 		continue;
-			// 	}
-			// 	setHideCards(1);
-			// 	break;
-			// }
-			sameLevel
-				? hideCardsCB()
-					? setHideCards(1)
-					: setTimeout(() => {
-							setHideCards(1);
-					  }, 1000)
-				: setTimeout(() => {
-						setHideCards(1);
-				  }, 3000);
+			console.log("inside green card");
+			hideCardsCB() ? setHideCards(1) : tempFunc();
 		}
 	}, []);
 
@@ -64,7 +54,7 @@ const Greencard = ({ clicked, sameLevel, hideCardsCB }) => {
 			{/* {gameArea} */}
 			{/* <Countdown date={Date.now() + 2900} renderer={hideGreenCards} /> */}
 			<BoxGreen
-				sameLevel={sameLevel}
+				sameLevel={1}
 				hideCards={hideCards}
 				clicked={clicked}
 			></BoxGreen>
