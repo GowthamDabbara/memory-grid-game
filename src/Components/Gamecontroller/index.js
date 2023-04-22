@@ -5,16 +5,18 @@ import Game from "../Game";
 import Cookies from "js-cookie";
 import { ThemeContext } from "styled-components";
 
-const Gamecontroller = () => {
+const Gamecontroller = ({ temp }) => {
 	const [currentLevel, setCurrentLevel] = useState(1);
 	const [topLevel, setTopLevel] = useState(0);
 	const [mode, setMode] = useState(1);
 	const [sameLevel, setSameLevel] = useState(0);
 	const ThemeContext = createContext(null);
 	let hide = 0;
+	let counter = 0;
 
 	let tempMode = mode;
 	const restart = () => {
+		counter = 0;
 		if (currentLevel > topLevel) {
 			setTopLevel(currentLevel);
 		}
@@ -27,8 +29,8 @@ const Gamecontroller = () => {
 
 	const resetGreenTimer = () => {
 		hide = 0;
+		counter = 0;
 		setTimeout(() => {
-			console.log("inside resetGreenTimer");
 			hide = 1;
 		}, 3000);
 	};
@@ -53,18 +55,19 @@ const Gamecontroller = () => {
 
 	const setTheme = () => {
 		tempMode = !mode;
-		// setSameLevel(1);
 	};
 
 	const hideCards = () => {
-		return hide;
+		if (counter >= 3) {
+			return 1;
+		}
+		return 0;
 	};
 
 	useEffect(() => {
-		setTimeout(() => {
-			hide = 1;
-		}, 3000);
-		console.log("inside effect");
+		setInterval(() => {
+			counter = counter + 1;
+		}, 1000);
 	}, []);
 
 	const renderGame = () => {

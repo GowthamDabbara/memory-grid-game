@@ -3,14 +3,16 @@ import Cookies from "js-cookie";
 import Gamecontroller from "./Components/Gamecontroller";
 
 function App() {
+	let temp = 0;
 	useEffect(() => {
-		Cookies.set("mode", true, { expires: 20, path: "/" });
-		console.log("hello999", Cookies.get("mode"));
+		setTimeout(() => {
+			temp = 1;
+		}, 2000);
 	}, []);
 
 	return (
 		<div>
-			<Gamecontroller />
+			<Gamecontroller temp={temp} />
 		</div>
 	);
 }
