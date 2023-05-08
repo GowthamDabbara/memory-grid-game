@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState, useReducer, createContext, useContext } from "react";
 import Countdown from "react-countdown";
 import Game from "../Game";
@@ -11,33 +11,27 @@ const Gamecontroller = ({ temp }) => {
 	const [mode, setMode] = useState(1);
 	const [sameLevel, setSameLevel] = useState(0);
 	const ThemeContext = createContext(null);
-	let hide = 0;
-	let counter = 0;
-
+	const counter = useRef(0);
 	let tempMode = mode;
 	const restart = () => {
-		counter = 0;
-		if (currentLevel > topLevel) {
-			setTopLevel(currentLevel);
-		}
+		counter.current = 0;
 		setCurrentLevel(1);
 		setMode(tempMode);
-		hide = 0;
 		resetGreenTimer();
 		forceUpdate();
 	};
 
 	const resetGreenTimer = () => {
-		hide = 0;
-		counter = 0;
-		setTimeout(() => {
-			hide = 1;
-		}, 3000);
+		counter.current = 0;
+		setTimeout(() => {}, 3000);
 	};
 
 	const nextLevel = () => {
 		resetGreenTimer();
 		setMode(tempMode);
+		if (currentLevel > topLevel) {
+			setTopLevel(currentLevel);
+		}
 		setCurrentLevel(currentLevel + 1);
 	};
 
@@ -58,7 +52,7 @@ const Gamecontroller = ({ temp }) => {
 	};
 
 	const hideCards = () => {
-		if (counter >= 3) {
+		if (counter.current >= 3) {
 			return 1;
 		}
 		return 0;
@@ -66,7 +60,7 @@ const Gamecontroller = ({ temp }) => {
 
 	useEffect(() => {
 		setInterval(() => {
-			counter = counter + 1;
+			counter.current = counter.current + 1;
 		}, 1000);
 	}, []);
 

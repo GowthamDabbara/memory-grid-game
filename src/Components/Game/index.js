@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer, useRef } from "react";
 import Cookies from "js-cookie";
 import Card from "../Card";
 import {
@@ -27,18 +27,29 @@ const Game = ({
 	const [cards, setCards] = useState([]);
 	const [cardsData, setCardsData] = useState([]);
 	const [clickable, setClickable] = useState(0);
-	// let cardsData = [];
+	const localCardsData = useRef(cardsData);
 
-	let foundCards = 0;
+	const foundCards = useRef(0);
 
-	const checkLevelCompletion = () => {
-		if (foundCards + 1 === level + 2) {
+	const checkLevelCompletion = (key) => {
+		if (foundCards.current + 1 === level + 2) {
 			setTimeout(() => {
 				// setThemeCB(mode);
 				nextLevelCB();
 			}, 200);
 		}
-		foundCards = foundCards + 1;
+		let temp = [];
+		localCardsData.current.map((item) => {
+			if (item.keys === key) {
+				console.log("inside key");
+				temp.push({ ...item, clicked: 1 });
+			} else {
+				temp.push(item);
+			}
+		});
+		localCardsData.current = temp;
+		console.log(localCardsData.current);
+		foundCards.current = foundCards.current + 1;
 	};
 
 	const boxSizeCtrl = () => {
@@ -67,9 +78,13 @@ const Game = ({
 		Cookies.set("mode", !darkMode, { expires: 20, path: "/" });
 
 		let temp = [];
+		console.log(localCardsData.current);
 		setDarkMode(!darkMode);
-		cardsData.map((item) => temp.push({ ...item, theme: !darkMode }));
+		localCardsData.current.map((item) =>
+			temp.push({ ...item, theme: !darkMode })
+		);
 		setDarkModeToggled(1);
+		localCardsData.current = temp;
 		setCardsData(temp);
 		renderCards(level, temp, 1);
 		setThemeCB();
@@ -86,6 +101,8 @@ const Game = ({
 				data.push({
 					value: greenCardsCount <= level + 2 ? 1 : 0,
 					theme: darkMode,
+					clicked: 0,
+					keys: Math.random(),
 				});
 				greenCardsCount += 1;
 			}
@@ -95,6 +112,7 @@ const Game = ({
 		for (let i = 0; i < (level + 2) * (level + 2); i++) {
 			cards.push(
 				<Card
+					keys={data[i].keys}
 					value={data[i].value}
 					restartCB={restartCB}
 					boxSize={boxSize}
@@ -103,6 +121,7 @@ const Game = ({
 					sameLevel={sameLevel}
 					setThemeCB={setThemeCB}
 					hideCardsCB={hideCardsCB}
+					click={data[i].clicked}
 				/>
 			);
 			data[i].sameLevel = 1;
@@ -110,6 +129,7 @@ const Game = ({
 
 		setCards(cards);
 		setCardsData(data);
+		localCardsData.current = data;
 	};
 
 	// const gameArea = React.useMemo(
@@ -132,18 +152,17 @@ const Game = ({
 	useEffect(() => {
 		// setDarkMode(Cookies.get("mode"));
 		renderCards(level, []);
-
-		console.log(Cookies.get("mode"), "mode in game");
 	}, []);
 
 	return (
 		<>
 			<MainContainer key={Math.random()} darkMode={darkMode}>
 				<DetailsContainer>
-					<TopLevel>Top Level: {topLevel}</TopLevel>
+					<TopLevel darkMode={darkMode}>Top Level: {topLevel}</TopLevel>
 					<SettingsContainer>
-						<CurrentLevel>Level: {level - 1}</CurrentLevel>
+						<CurrentLevel darkMode={darkMode}>Level: {level - 1}</CurrentLevel>
 						<ModeBtn
+							darkMode={darkMode}
 							onClick={() => {
 								darkModeToggle();
 							}}

@@ -33,6 +33,7 @@ export const TopLevel = styled.div`
 	height: auto;
 	width: 400px;
 	text-align: center;
+	color: ${(props) => (props.darkMode ? "white" : "black")};
 `;
 
 export const SettingsContainer = styled.div`
@@ -43,11 +44,14 @@ export const SettingsContainer = styled.div`
 export const CurrentLevel = styled.div`
 	height: auto;
 	width: 400px;
+	color: ${(props) => (props.darkMode ? "white" : "black")};
 `;
 export const ModeBtn = styled.button`
+	color: ${(props) => (props.darkMode ? "white" : "black")};
 	height: auto;
 	width: 110px;
 	padding: 2px;
 	margin: 0;
 	background: transparent;
+	box-shadow: none;
 `;

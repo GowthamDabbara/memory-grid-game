@@ -28,9 +28,12 @@ export const BoxGreen = styled.div`
 	height: ${(props) => (props.hideCards ? "0%" : "100%")};
 	width: ${(props) => (props.hideCards ? "0%" : "100%")};
 	animation-name: ${(props) => (props.hideCards ? renderBoxFirst : "")};
-	animation-duration: ${(props) => (props.sameLevel ? "0s" : "0.15s")};
+	animation-duration: ${(props) => (props.hideCards ? "0.15s" : "0.15s")};
 	animation-delay: 0s;
-	display: block; // control through code (hide ? (clicked ? block : none) : block)
+	display: ${(props) =>
+		props.makeItNone
+			? "none"
+			: "block"}; // control through code (hide ? (clicked ? block : none) : block)
 `;
 
 export const BoxGreenTwo = styled.div`
@@ -39,7 +42,7 @@ export const BoxGreenTwo = styled.div`
 	height: 100%;
 	width: 100%;
 	animation-name: ${renderBoxSecond};
-	animation-duration: 0.15s;
+	animation-duration: ${(props) => (props.alreadyClick ? "0s" : "0.15s")};
 	animation-delay: 0s;
 	display: ${(props) =>
 		props.clicked

@@ -4,21 +4,28 @@ import { useState, useEffect } from "react";
 import Countdown from "react-countdown";
 import { BoxGreen, BoxGreenTwo } from "./styled";
 
-const Greencard = ({ clicked, sameLevel, hideCardsCB }) => {
+const Greencard = ({ clicked, sameLevel, hideCardsCB, alreadyClick }) => {
 	const [hideCards, setHideCards] = useState(hideCardsCB() ? 1 : 0);
+	const [makeItNone, setMakeItNone] = useState(hideCardsCB() ? 1 : 0);
+
+	const ctrlCard = () => {
+		setMakeItNone(1);
+	};
 
 	const tempFunc = () => {
 		let timerId = setInterval(() => {
 			if (hideCardsCB()) {
 				setHideCards(1);
 				clearInterval(timerId);
+				setTimeout(() => {
+					ctrlCard();
+				}, 150);
 			}
-		}, 1000);
+		}, 300);
 
 		setTimeout(() => {
 			clearInterval(timerId);
 		}, 4000);
-		// hideCardsCB not returning 1 after useeffect change.
 	};
 
 	useEffect(() => {
@@ -33,8 +40,13 @@ const Greencard = ({ clicked, sameLevel, hideCardsCB }) => {
 				sameLevel={sameLevel}
 				hideCards={hideCards}
 				clicked={clicked}
+				makeItNone={makeItNone}
 			></BoxGreen>
-			<BoxGreenTwo clicked={clicked}></BoxGreenTwo>
+			<BoxGreenTwo
+				key={Math.random()}
+				alreadyClick={alreadyClick}
+				clicked={clicked}
+			></BoxGreenTwo>
 		</>
 	);
 };

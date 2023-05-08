@@ -12,14 +12,15 @@ const Card = ({
 	cardFoundCB,
 	darkMode,
 	sameLevel,
-	foundi,
-	key,
-	setThemeCB,
+	keys,
 	hideCardsCB,
+	click,
 }) => {
-	const [clicked, setClicked] = useState(0);
+	const [clicked, setClicked] = useState(click);
 	const [redClicked, setRedClicked] = useState(0);
-	const [clickable, setClickable] = useState(sameLevel ? 1 : 0);
+	const [clickable, setClickable] = useState(
+		sameLevel ? (hideCardsCB() ? 1 : 0) : 0
+	);
 	const [modeToggled, setModeToggled] = useState(0);
 	let found = 0;
 
@@ -27,7 +28,8 @@ const Card = ({
 		if (clickable) {
 			if (value) {
 				if (found === 0) {
-					cardFoundCB(key);
+					console.log(keys, "inside card");
+					cardFoundCB(keys);
 					found = 1;
 				}
 				setClicked(1);
@@ -41,17 +43,17 @@ const Card = ({
 		}
 	};
 
+	const tempFunc = () => {
+		let interval = setInterval(() => {
+			if (hideCardsCB()) {
+				setClickable(1);
+				clearInterval(interval);
+			}
+		}, 400);
+	};
+
 	useEffect(() => {
-		sameLevel
-			? setClickable(1)
-			: setTimeout(() => {
-					setClickable(1);
-			  }, 3000);
-		// sameLevel
-		// 	? setClickable(1)
-		// 	: setTimeout(() => {
-		// 			setClickable(1);
-		// 	  }, 3000);
+		hideCardsCB() ? setClickable(1) : tempFunc();
 	}, []);
 
 	// const gameArea = React.useMemo(
@@ -72,10 +74,10 @@ const Card = ({
 			<Box darkMode={darkMode} boxSize={boxSize} onClick={() => handleClick()}>
 				{value ? (
 					<Greencard
-						// clickable={clickable}
 						hideCardsCB={hideCardsCB}
-						// sameLevel={sameLevel}
+						sameLevel={sameLevel}
 						clicked={clicked}
+						alreadyClick={click}
 					/>
 				) : (
 					<Redcard clicked={redClicked} />
