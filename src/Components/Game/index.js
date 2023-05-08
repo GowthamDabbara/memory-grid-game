@@ -74,9 +74,6 @@ const Game = ({
 	};
 
 	const darkModeToggle = () => {
-		Cookies.remove("mode");
-		Cookies.set("mode", !darkMode, { expires: 20, path: "/" });
-
 		let temp = [];
 		console.log(localCardsData.current);
 		setDarkMode(!darkMode);
@@ -119,7 +116,6 @@ const Game = ({
 					cardFoundCB={checkLevelCompletion}
 					darkMode={data[i].theme}
 					sameLevel={sameLevel}
-					setThemeCB={setThemeCB}
 					hideCardsCB={hideCardsCB}
 					click={data[i].clicked}
 				/>

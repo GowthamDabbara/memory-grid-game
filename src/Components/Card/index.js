@@ -22,7 +22,7 @@ const Card = ({
 		sameLevel ? (hideCardsCB() ? 1 : 0) : 0
 	);
 	const [modeToggled, setModeToggled] = useState(0);
-	let found = 0;
+	let found = click;
 
 	const handleClick = () => {
 		if (clickable) {
