@@ -3,7 +3,7 @@ import { useState, useReducer } from "react";
 import Countdown from "react-countdown";
 import Game from "../Game";
 
-const Gamecontroller = ({ temp }) => {
+const Gamecontroller = () => {
 	const [currentLevel, setCurrentLevel] = useState(1);
 	const [topLevel, setTopLevel] = useState(0);
 	const counter = useRef(0);
