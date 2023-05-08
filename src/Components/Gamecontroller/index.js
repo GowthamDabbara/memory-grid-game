@@ -25,7 +25,7 @@ const Gamecontroller = () => {
 	};
 
 	const intervalCTRL = () => {
-		clearInterval(intervalID.current, "sdfsdf");
+		clearInterval(intervalID.current);
 		counter.current = 0;
 		intervalID.current = setInterval(() => {
 			counter.current = counter.current + 1;
