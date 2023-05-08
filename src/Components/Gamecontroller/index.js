@@ -13,6 +13,7 @@ const Gamecontroller = ({ temp }) => {
 	const ThemeContext = createContext(null);
 	const counter = useRef(0);
 	let tempMode = mode;
+
 	const restart = () => {
 		counter.current = 0;
 		setCurrentLevel(1);
@@ -67,11 +68,11 @@ const Gamecontroller = ({ temp }) => {
 	const renderGame = () => {
 		return (
 			<>
-				{/* <Countdown
+				<Countdown
 					key={Math.random()}
 					date={Date.now() + 8000}
 					renderer={reset}
-				/> */}
+				/>
 				<ThemeContext.Provider value={mode}>
 					<Game
 						key={Math.random()}
