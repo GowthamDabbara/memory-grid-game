@@ -1,6 +1,5 @@
 import React from "react";
-import { useState, useEffect, useCallback } from "react";
-import Countdown from "react-countdown";
+import { useState, useEffect, useRef } from "react";
 import Greencard from "../Greencard";
 import Redcard from "../Redcard";
 import { Box } from "./styled";
@@ -21,21 +20,18 @@ const Card = ({
 	const [clickable, setClickable] = useState(
 		sameLevel ? (hideCardsCB() ? 1 : 0) : 0
 	);
-	const [modeToggled, setModeToggled] = useState(0);
-	let found = click;
+	const found = useRef(click);
 
 	const handleClick = () => {
 		if (clickable) {
 			if (value) {
-				if (found === 0) {
-					console.log(keys, "inside card");
+				if (found.current === 0) {
 					cardFoundCB(keys);
-					found = 1;
+					found.current = 1;
+					setClicked(1);
 				}
-				setClicked(1);
 			} else {
 				setTimeout(() => {
-					// setThemeCB();
 					restartCB();
 				}, 200);
 				setRedClicked(1);
@@ -49,7 +45,7 @@ const Card = ({
 				setClickable(1);
 				clearInterval(interval);
 			}
-		}, 400);
+		}, 150);
 	};
 
 	useEffect(() => {
@@ -66,7 +62,7 @@ const Card = ({
 	// 			)}
 	// 		</Box>
 	// 	),
-	// 	[]
+	// 	[parameters to when it should update]
 	// );
 
 	return (

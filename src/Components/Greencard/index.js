@@ -1,6 +1,4 @@
-import { click } from "@testing-library/user-event/dist/click";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Countdown from "react-countdown";
 import { BoxGreen, BoxGreenTwo } from "./styled";
 
@@ -17,21 +15,16 @@ const Greencard = ({ clicked, sameLevel, hideCardsCB, alreadyClick }) => {
 			if (hideCardsCB()) {
 				setHideCards(1);
 				clearInterval(timerId);
+				console.log("inside greencard");
 				setTimeout(() => {
 					ctrlCard();
 				}, 150);
 			}
-		}, 300);
-
-		setTimeout(() => {
-			clearInterval(timerId);
-		}, 4000);
+		}, 150);
 	};
 
 	useEffect(() => {
-		if (hideCards === 0) {
-			hideCardsCB() ? setHideCards(1) : tempFunc();
-		}
+		hideCardsCB() ? setHideCards(1) : tempFunc();
 	}, []);
 
 	return (

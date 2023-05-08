@@ -19,36 +19,26 @@ const Game = ({
 	topLevel,
 	mode,
 	setThemeCB,
-	sameLevel,
 	hideCardsCB,
 }) => {
 	const [darkModeToggled, setDarkModeToggled] = useState(0);
 	const [darkMode, setDarkMode] = useState(mode);
 	const [cards, setCards] = useState([]);
-	const [cardsData, setCardsData] = useState([]);
-	const [clickable, setClickable] = useState(0);
-	const localCardsData = useRef(cardsData);
 
+	const localCardsData = useRef([]);
 	const foundCards = useRef(0);
 
 	const checkLevelCompletion = (key) => {
 		if (foundCards.current + 1 === level + 2) {
 			setTimeout(() => {
-				// setThemeCB(mode);
 				nextLevelCB();
 			}, 200);
 		}
-		let temp = [];
-		localCardsData.current.map((item) => {
+		localCardsData.current.forEach((item) => {
 			if (item.keys === key) {
-				console.log("inside key");
-				temp.push({ ...item, clicked: 1 });
-			} else {
-				temp.push(item);
+				item.clicked = 1;
 			}
 		});
-		localCardsData.current = temp;
-		console.log(localCardsData.current);
 		foundCards.current = foundCards.current + 1;
 	};
 
@@ -74,16 +64,10 @@ const Game = ({
 	};
 
 	const darkModeToggle = () => {
-		let temp = [];
-		console.log(localCardsData.current);
 		setDarkMode(!darkMode);
-		localCardsData.current.map((item) =>
-			temp.push({ ...item, theme: !darkMode })
-		);
+		localCardsData.current.forEach((item) => (item.theme = !darkMode));
 		setDarkModeToggled(1);
-		localCardsData.current = temp;
-		setCardsData(temp);
-		renderCards(level, temp, 1);
+		renderCards(level, localCardsData.current, 1);
 		setThemeCB();
 	};
 
@@ -124,35 +108,16 @@ const Game = ({
 		}
 
 		setCards(cards);
-		setCardsData(data);
 		localCardsData.current = data;
 	};
 
-	// const gameArea = React.useMemo(
-	// 	() => (
-	// 		<Parent darkMode={darkMode} key={Math.random()}>
-	// 			{/* {renderCards(level)} */}
-	// 			{cards ? (
-	// 				cards.map((item) => {
-	// 					console.log("ye");
-	// 					return item;
-	// 				})
-	// 			) : (
-	// 				<div>no cards</div>
-	// 			)}
-	// 		</Parent>
-	// 	),
-	// 	[level, darkMode]
-	// );
-
 	useEffect(() => {
-		// setDarkMode(Cookies.get("mode"));
 		renderCards(level, []);
 	}, []);
 
 	return (
 		<>
-			<MainContainer key={Math.random()} darkMode={darkMode}>
+			<MainContainer darkMode={darkMode}>
 				<DetailsContainer>
 					<TopLevel darkMode={darkMode}>Top Level: {topLevel}</TopLevel>
 					<SettingsContainer>
@@ -167,18 +132,13 @@ const Game = ({
 						</ModeBtn>
 					</SettingsContainer>
 				</DetailsContainer>
-				<Parent
-					darkModeToggled={darkModeToggled}
-					darkMode={darkMode}
-					key={Math.random()}
-				>
-					{/* {renderCards(level)} */}
+				<Parent darkModeToggled={darkModeToggled} darkMode={darkMode}>
 					{cards ? (
 						cards.map((item) => {
 							return item;
 						})
 					) : (
-						<div>no cards</div>
+						<></>
 					)}
 				</Parent>
 			</MainContainer>
