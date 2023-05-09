@@ -61,11 +61,11 @@ const Gamecontroller = () => {
 	const renderGame = () => {
 		return (
 			<>
-				{/* <Countdown
+				<Countdown
 					key={Math.random()}
 					date={Date.now() + 8000}
 					renderer={reset}
-				/> */}
+				/>
 				<Game
 					key={Math.random()}
 					level={currentLevel}

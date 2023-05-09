@@ -46,6 +46,7 @@ export const TopLevel = styled.div`
 	text-align: center;
 	font-size: ${(props) => (props.level < 5 ? "30px" : "24px")};
 	color: ${(props) => (props.darkMode ? "white" : "black")};
+	font-weight: 490;
 `;
 
 export const SettingsContainer = styled.div`
