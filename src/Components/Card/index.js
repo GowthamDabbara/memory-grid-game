@@ -6,7 +6,6 @@ import { Box } from "./styled";
 
 const Card = ({
 	value,
-	restartCB,
 	boxSize,
 	cardFoundCB,
 	darkMode,
@@ -14,9 +13,9 @@ const Card = ({
 	keys,
 	hideCardsCB,
 	click,
+	level,
 }) => {
 	const [clicked, setClicked] = useState(click);
-	const [redClicked, setRedClicked] = useState(0);
 	const [clickable, setClickable] = useState(
 		sameLevel ? (hideCardsCB() ? 1 : 0) : 0
 	);
@@ -24,17 +23,10 @@ const Card = ({
 
 	const handleClick = () => {
 		if (clickable) {
-			if (value) {
-				if (found.current === 0) {
-					cardFoundCB(keys);
-					found.current = 1;
-					setClicked(1);
-				}
-			} else {
-				setTimeout(() => {
-					restartCB();
-				}, 200);
-				setRedClicked(1);
+			if (found.current === 0) {
+				cardFoundCB(keys, value);
+				found.current = 1;
+				setClicked(1);
 			}
 		}
 	};
@@ -67,7 +59,12 @@ const Card = ({
 
 	return (
 		<>
-			<Box darkMode={darkMode} boxSize={boxSize} onClick={() => handleClick()}>
+			<Box
+				level={level}
+				darkMode={darkMode}
+				boxSize={boxSize}
+				onClick={() => handleClick()}
+			>
 				{value ? (
 					<Greencard
 						hideCardsCB={hideCardsCB}
@@ -76,7 +73,7 @@ const Card = ({
 						alreadyClick={click}
 					/>
 				) : (
-					<Redcard clicked={redClicked} />
+					<Redcard clicked={clicked} />
 				)}
 			</Box>
 		</>

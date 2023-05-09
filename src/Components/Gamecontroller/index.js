@@ -5,7 +5,7 @@ import Game from "../Game";
 
 const Gamecontroller = () => {
 	const [currentLevel, setCurrentLevel] = useState(1);
-	const [topLevel, setTopLevel] = useState(0);
+	const topLevel = useRef(0);
 	const counter = useRef(0);
 	const mode = useRef(1);
 	const intervalID = useRef();
@@ -18,8 +18,8 @@ const Gamecontroller = () => {
 
 	const nextLevel = () => {
 		intervalCTRL();
-		if (currentLevel > topLevel) {
-			setTopLevel(currentLevel);
+		if (currentLevel > topLevel.current) {
+			topLevel.current = currentLevel;
 		}
 		setCurrentLevel(currentLevel + 1);
 	};
@@ -61,15 +61,15 @@ const Gamecontroller = () => {
 	const renderGame = () => {
 		return (
 			<>
-				<Countdown
+				{/* <Countdown
 					key={Math.random()}
 					date={Date.now() + 8000}
 					renderer={reset}
-				/>
+				/> */}
 				<Game
 					key={Math.random()}
 					level={currentLevel}
-					topLevel={topLevel}
+					topLevel={topLevel.current}
 					restartCB={restart}
 					nextLevelCB={nextLevel}
 					mode={mode.current}

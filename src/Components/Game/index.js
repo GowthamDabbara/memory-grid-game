@@ -10,6 +10,7 @@ import {
 	SettingsContainer,
 	CurrentLevel,
 	ModeBtn,
+	MainContainerWrapper,
 } from "./styled";
 
 const Game = ({
@@ -21,15 +22,22 @@ const Game = ({
 	setThemeCB,
 	hideCardsCB,
 }) => {
-	const [darkModeToggled, setDarkModeToggled] = useState(0);
 	const [darkMode, setDarkMode] = useState(mode);
 	const [cards, setCards] = useState([]);
 
+	const scaleValue = useRef(0.55);
 	const localCardsData = useRef([]);
-	const foundCards = useRef(0);
+	const cardsFound = useRef(0);
+	const darkModeToggled = useRef(0);
 
-	const checkLevelCompletion = (key) => {
-		if (foundCards.current + 1 === level + 2) {
+	const checkLevelCompletion = (key, value) => {
+		if (value === 0) {
+			setTimeout(() => {
+				restartCB();
+			}, 200);
+			return;
+		}
+		if (cardsFound.current + 1 === level + 2) {
 			setTimeout(() => {
 				nextLevelCB();
 			}, 200);
@@ -39,26 +47,34 @@ const Game = ({
 				item.clicked = 1;
 			}
 		});
-		foundCards.current = foundCards.current + 1;
+		cardsFound.current = cardsFound.current + 1;
 	};
 
 	const boxSizeCtrl = () => {
 		switch (level) {
 			case 1:
+				scaleValue.current = 0.55;
 				return 28;
 			case 2:
+				scaleValue.current = 0.55;
 				return 23;
 			case 3:
+				scaleValue.current = 0.59;
 				return 18;
 			case 4:
+				scaleValue.current = 0.69;
 				return 14;
 			case 5:
+				scaleValue.current = 0.78;
 				return 12;
 			case 6:
+				scaleValue.current = 0.85;
 				return 10;
 			case 7:
+				scaleValue.current = 0.9;
 				return 9.1;
 			case 8:
+				scaleValue.current = 0.95;
 				return 8;
 		}
 	};
@@ -66,14 +82,13 @@ const Game = ({
 	const darkModeToggle = () => {
 		setDarkMode(!darkMode);
 		localCardsData.current.forEach((item) => (item.theme = !darkMode));
-		setDarkModeToggled(1);
+		darkModeToggled.current = 1;
 		renderCards(level, localCardsData.current, 1);
 		setThemeCB();
 	};
 
-	const renderCards = (level, cardsData, sameLevel = 0) => {
+	const renderCards = (level, data, sameLevel = 0) => {
 		let cards = [];
-		let data = cardsData;
 		let greenCardsCount = 1;
 		let boxSize = boxSizeCtrl();
 
@@ -84,6 +99,7 @@ const Game = ({
 					theme: darkMode,
 					clicked: 0,
 					keys: Math.random(),
+					sameLevel: sameLevel,
 				});
 				greenCardsCount += 1;
 			}
@@ -95,16 +111,15 @@ const Game = ({
 				<Card
 					keys={data[i].keys}
 					value={data[i].value}
-					restartCB={restartCB}
 					boxSize={boxSize}
 					cardFoundCB={checkLevelCompletion}
 					darkMode={data[i].theme}
 					sameLevel={sameLevel}
 					hideCardsCB={hideCardsCB}
 					click={data[i].clicked}
+					level={level}
 				/>
 			);
-			data[i].sameLevel = 1;
 		}
 
 		setCards(cards);
@@ -117,31 +132,38 @@ const Game = ({
 
 	return (
 		<>
-			<MainContainer darkMode={darkMode}>
-				<DetailsContainer>
-					<TopLevel darkMode={darkMode}>Top Level: {topLevel}</TopLevel>
-					<SettingsContainer>
-						<CurrentLevel darkMode={darkMode}>Level: {level - 1}</CurrentLevel>
-						<ModeBtn
-							darkMode={darkMode}
-							onClick={() => {
-								darkModeToggle();
-							}}
-						>
-							Mode: {darkMode ? "Dark" : "Light"}
-						</ModeBtn>
-					</SettingsContainer>
-				</DetailsContainer>
-				<Parent darkModeToggled={darkModeToggled} darkMode={darkMode}>
-					{cards ? (
-						cards.map((item) => {
-							return item;
-						})
-					) : (
-						<></>
-					)}
-				</Parent>
-			</MainContainer>
+			<MainContainerWrapper darkMode={darkMode}>
+				<MainContainer scale={scaleValue.current} darkMode={darkMode}>
+					<DetailsContainer>
+						<TopLevel level={level} darkMode={darkMode}>
+							Top Level: {topLevel}
+						</TopLevel>
+						<SettingsContainer>
+							<CurrentLevel level={level} darkMode={darkMode}>
+								Level: {level - 1}
+							</CurrentLevel>
+							<ModeBtn
+								level={level}
+								darkMode={darkMode}
+								onClick={() => {
+									darkModeToggle();
+								}}
+							>
+								Mode: {darkMode ? "Dark" : "Light"}
+							</ModeBtn>
+						</SettingsContainer>
+					</DetailsContainer>
+					<Parent darkModeToggled={darkModeToggled.current} darkMode={darkMode}>
+						{cards ? (
+							cards.map((item) => {
+								return item;
+							})
+						) : (
+							<></>
+						)}
+					</Parent>
+				</MainContainer>
+			</MainContainerWrapper>
 		</>
 	);
 };
