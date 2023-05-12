@@ -3,8 +3,6 @@ import { useState, useReducer } from "react";
 import Countdown from "react-countdown";
 import Game from "../Game";
 
-// NOTE: use camel case for component name
-
 const GameController = () => {
 	const [currentLevel, setCurrentLevel] = useState(1);
 	const topLevel = useRef(0);

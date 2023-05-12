@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BoxGreen, BoxGreenTwo } from "./styled";
 
-// NOTE: use camel case for component name
-
 const GreenCard = ({ clicked, sameLevel, hideCardsCB, alreadyClick }) => {
 	const [hideCards, setHideCards] = useState(hideCardsCB() ? 1 : 0);
 	const [makeItNone, setMakeItNone] = useState(hideCardsCB() ? 1 : 0);

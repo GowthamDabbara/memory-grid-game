@@ -1,8 +1,6 @@
 import React from "react";
 import { BoxRed } from "./styled";
 
-//NOTE: use camel case for component name, remove unnecessary fragments
-
 const RedCard = ({ clicked }) => {
 	return <BoxRed clicked={clicked}></BoxRed>;
 };

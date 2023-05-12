@@ -44,8 +44,6 @@ const Card = ({
 		hideCardsCB() ? setClickable(1) : tempFunc();
 	}, []);
 
-	// NOTE: remove commented code
-	// NOTE: remove unnecessary fragments
 	return (
 		<Box
 			level={level}
