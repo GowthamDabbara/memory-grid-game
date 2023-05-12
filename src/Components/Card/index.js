@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import Greencard from "../Greencard";
-import Redcard from "../Redcard";
+import GreenCard from "../GreenCard";
+import RedCard from "../RedCard";
 import { Box } from "./styled";
 
 const Card = ({
@@ -25,8 +25,8 @@ const Card = ({
 		if (clickable) {
 			if (found.current === 0) {
 				cardFoundCB(keys, value);
-				found.current = 1;
 				setClicked(1);
+				found.current = 1;
 			}
 		}
 	};
@@ -45,42 +45,25 @@ const Card = ({
 	}, []);
 
 	// NOTE: remove commented code
-
-	// const gameArea = React.useMemo(
-	// 	() => (
-	// 		<Box boxSize={boxSize} onClick={() => handleClick()}>
-	// 			{value ? (
-	// 				<Greencard clicked={clicked} />
-	// 			) : (
-	// 				<Redcard clicked={redClicked} />
-	// 			)}
-	// 		</Box>
-	// 	),
-	// 	[parameters to when it should update]
-	// );
-
 	// NOTE: remove unnecessary fragments
-
 	return (
-		<>
-			<Box
-				level={level}
-				darkMode={darkMode}
-				boxSize={boxSize}
-				onClick={() => handleClick()}
-			>
-				{value ? (
-					<Greencard
-						hideCardsCB={hideCardsCB}
-						sameLevel={sameLevel}
-						clicked={clicked}
-						alreadyClick={click}
-					/>
-				) : (
-					<Redcard clicked={clicked} />
-				)}
-			</Box>
-		</>
+		<Box
+			level={level}
+			darkMode={darkMode}
+			boxSize={boxSize}
+			onClick={() => handleClick()}
+		>
+			{value ? (
+				<GreenCard
+					hideCardsCB={hideCardsCB}
+					sameLevel={sameLevel}
+					clicked={clicked}
+					alreadyClick={click}
+				/>
+			) : (
+				<RedCard clicked={clicked} />
+			)}
+		</Box>
 	);
 };
 

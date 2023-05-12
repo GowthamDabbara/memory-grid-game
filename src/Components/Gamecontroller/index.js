@@ -5,7 +5,7 @@ import Game from "../Game";
 
 // NOTE: use camel case for component name
 
-const Gamecontroller = () => {
+const GameController = () => {
 	const [currentLevel, setCurrentLevel] = useState(1);
 	const topLevel = useRef(0);
 	const counter = useRef(0);
@@ -85,4 +85,4 @@ const Gamecontroller = () => {
 	return <>{renderGame()}</>;
 };
 
-export default Gamecontroller;
+export default GameController;

@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect, useReducer, useRef } from "react";
-import Cookies from "js-cookie";
 import Card from "../Card";
 import {
 	Parent,
@@ -22,7 +21,6 @@ const Game = ({
 	setThemeCB,
 	hideCardsCB,
 }) => {
-
 	// NOTE: Why do we need darkMode and darkModeToggled for referring the same thing which is mode?
 
 	const [darkMode, setDarkMode] = useState(mode);
@@ -31,7 +29,6 @@ const Game = ({
 	const scaleValue = useRef(0.55);
 	const localCardsData = useRef([]);
 	const cardsFound = useRef(0);
-	const darkModeToggled = useRef(0);
 
 	const checkLevelCompletion = (key, value) => {
 		if (value === 0) {
@@ -85,7 +82,6 @@ const Game = ({
 	const darkModeToggle = () => {
 		setDarkMode(!darkMode);
 		localCardsData.current.forEach((item) => (item.theme = !darkMode));
-		darkModeToggled.current = 1;
 		renderCards(level, localCardsData.current, 1);
 		setThemeCB();
 	};
@@ -134,40 +130,38 @@ const Game = ({
 	}, []);
 
 	return (
-		<>
-			<MainContainerWrapper darkMode={darkMode}>
-				<MainContainer scale={scaleValue.current} darkMode={darkMode}>
-					<DetailsContainer>
-						<TopLevel level={level} darkMode={darkMode}>
-							Top Level: {topLevel}
-						</TopLevel>
-						<SettingsContainer>
-							<CurrentLevel level={level} darkMode={darkMode}>
-								Level: {level - 1}
-							</CurrentLevel>
-							<ModeBtn
-								level={level}
-								darkMode={darkMode}
-								onClick={() => {
-									darkModeToggle();
-								}}
-							>
-								Mode: {darkMode ? "Dark" : "Light"}
-							</ModeBtn>
-						</SettingsContainer>
-					</DetailsContainer>
-					<Parent darkModeToggled={darkModeToggled.current} darkMode={darkMode}>
-						{cards ? (
-							cards.map((item) => {
-								return item;
-							})
-						) : (
-							<></>
-						)}
-					</Parent>
-				</MainContainer>
-			</MainContainerWrapper>
-		</>
+		<MainContainerWrapper darkMode={darkMode}>
+			<MainContainer scale={scaleValue.current}>
+				<DetailsContainer>
+					<TopLevel level={level} darkMode={darkMode}>
+						Top Level: {topLevel}
+					</TopLevel>
+					<SettingsContainer>
+						<CurrentLevel level={level} darkMode={darkMode}>
+							Level: {level - 1}
+						</CurrentLevel>
+						<ModeBtn
+							level={level}
+							darkMode={darkMode}
+							onClick={() => {
+								darkModeToggle();
+							}}
+						>
+							Mode: {darkMode ? "Dark" : "Light"}
+						</ModeBtn>
+					</SettingsContainer>
+				</DetailsContainer>
+				<Parent darkMode={darkMode}>
+					{cards ? (
+						cards.map((item) => {
+							return item;
+						})
+					) : (
+						<></>
+					)}
+				</Parent>
+			</MainContainer>
+		</MainContainerWrapper>
 	);
 };
 

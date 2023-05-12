@@ -10,7 +10,7 @@ export const Parent = styled.div`
 	flex-wrap: wrap;
 	width: 500px;
 	aspect-ratio: 1 / 1;
-	animation-name: ${(props) => (props.darkModeToggled ? "" : renderAnimation)};
+	animation-name: ${renderAnimation};
 	animation-duration: 1s;
 	background-color: ${(props) => (props.darkMode ? "#1a202c" : "white")};
 `;
@@ -26,12 +26,6 @@ export const MainContainerWrapper = styled.div`
 
 export const MainContainer = styled.div`
 	scale: ${(props) => props.scale};
-	height: ${window.innerHeight + "px"};
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background-color: ${(props) => (props.darkMode ? "#1a202c" : "white")};
 `;
 
 export const DetailsContainer = styled.div`
