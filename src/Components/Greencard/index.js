@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Countdown from "react-countdown";
 import { BoxGreen, BoxGreenTwo } from "./styled";
 
+// NOTE: use camel case for component name
+
 const Greencard = ({ clicked, sameLevel, hideCardsCB, alreadyClick }) => {
 	const [hideCards, setHideCards] = useState(hideCardsCB() ? 1 : 0);
 	const [makeItNone, setMakeItNone] = useState(hideCardsCB() ? 1 : 0);
@@ -15,7 +17,7 @@ const Greencard = ({ clicked, sameLevel, hideCardsCB, alreadyClick }) => {
 			if (hideCardsCB()) {
 				setHideCards(1);
 				clearInterval(timerId);
-				console.log("inside greencard");
+				console.log("inside greencard"); //NOTE: remove console
 				setTimeout(() => {
 					ctrlCard();
 				}, 150);

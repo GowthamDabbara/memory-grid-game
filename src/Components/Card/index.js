@@ -44,6 +44,8 @@ const Card = ({
 		hideCardsCB() ? setClickable(1) : tempFunc();
 	}, []);
 
+	// NOTE: remove commented code
+
 	// const gameArea = React.useMemo(
 	// 	() => (
 	// 		<Box boxSize={boxSize} onClick={() => handleClick()}>
@@ -56,6 +58,8 @@ const Card = ({
 	// 	),
 	// 	[parameters to when it should update]
 	// );
+
+	// NOTE: remove unnecessary fragments
 
 	return (
 		<>

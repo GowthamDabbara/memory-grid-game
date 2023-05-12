@@ -22,6 +22,9 @@ const Game = ({
 	setThemeCB,
 	hideCardsCB,
 }) => {
+
+	// NOTE: Why do we need darkMode and darkModeToggled for referring the same thing which is mode?
+
 	const [darkMode, setDarkMode] = useState(mode);
 	const [cards, setCards] = useState([]);
 
